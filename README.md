@@ -1,39 +1,43 @@
-# Machine Learning Intrusion Detection Demo
+# Secure Web Application (Beginner Project)
 
-This beginner project trains a simple machine-learning classifier on a **synthetic educational dataset** and presents results in a Streamlit dashboard. It is designed to teach the workflow: prepare data, train a model, evaluate it, and inspect predictions.
+A beginner-friendly Flask application demonstrating secure registration, login, password hashing, SQLite storage, parameterized SQL queries, session handling, basic security headers, and server-side input validation.
 
-## Important limitation
-The included data is synthetic and the model is for demonstration only. It does not detect real attacks reliably and must not be used as a production security control. Do not upload sensitive network captures or personal data.
+## Requirements
+- Python 3.10 or newer
+- VS Code (optional)
 
 ## Run on Windows
-Open a terminal in this folder:
+Open a terminal in this folder and run:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-python generate_dataset.py
-python train_model.py
-streamlit run app.py
+python app.py
 ```
 
-If PowerShell activation is blocked, use:
+If PowerShell blocks activation, you can run the environment's Python directly:
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe generate_dataset.py
-.\.venv\Scripts\python.exe train_model.py
-.\.venv\Scripts\python.exe -m streamlit run app.py
+.\.venv\Scripts\python.exe app.py
 ```
 
-The browser should open automatically. If not, use the local address shown in the terminal.
+Open `http://127.0.0.1:5000` in your browser. Register an account and log in.
 
-## CSV format for your own demo data
-Upload a CSV containing these columns:
-- `duration`
-- `src_bytes`
-- `dst_bytes`
-- `failed_logins`
-- `connection_count`
-- `label` (optional; values such as `normal` or `suspicious` are used for evaluation)
+## Security features included
+- Passwords are stored as salted hashes using Werkzeug, never as plain text.
+- SQL statements use placeholders/parameterized queries.
+- User input is validated on the server.
+- Session cookies are HttpOnly and SameSite=Lax.
+- Basic browser security headers are added.
+- Dashboard routes require an authenticated session.
+- Logout uses POST rather than a GET link.
 
-Rows without a `label` can be scored by the trained demo model. This app is not a replacement for professional IDS products or analyst review.
+## Important limitations
+This is an educational project, not a production-ready authentication service. Before real deployment, add CSRF protection, rate limiting, password-reset flows, secure secret management, HTTPS, logging/monitoring, and security testing. Set a strong `FLASK_SECRET_KEY` environment variable before deployment. Set `COOKIE_SECURE=1` only when using HTTPS. Never publish the development secret or a database containing real user data.
+
+## GitHub checklist
+1. Add a clear project description and screenshots.
+2. Do not commit `.venv/`, `users.db`, or secrets.
+3. Add a `.gitignore` before publishing.
+4. Explain that this is a learning/demo project.
